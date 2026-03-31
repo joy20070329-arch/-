@@ -3,148 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>台中旅遊：看風景 放輕鬆</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <title>台中旅遊誌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --cream: #faf6f0;
-            --warm-brown: #8b5e3c;
-            --terracotta: #c97941;
-            --ink: #1e1a16;
-            --mist: #e8e0d5;
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            --brown: #6d4c41;
+            --orange: #d87d4a;
+            --dark: #2c2c2c;
+            --safe-bottom: env(safe-area-inset-bottom);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
+
         body {
             background-color: var(--cream);
-            color: var(--ink);
+            color: var(--dark);
             font-family: 'Noto Serif TC', serif;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden; /* 防止 iOS 橫向跳動 */
+            line-height: 1.6;
         }
 
-        /* 頂部 Header：使用具有標誌性的台中地際線或高美濕地 */
-        .hero {
-            height: 40vh;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)), 
-                        url('https://travel.taichung.gov.tw/image/25574/1024x768') center/cover no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            padding-top: var(--safe-top);
+        /* 標題區加大 */
+        header {
+            padding: 60px 25px 30px;
+            background: linear-gradient(to bottom, #f3e5f5, var(--cream));
+            text-align: left;
         }
 
-        .hero-title { font-size: clamp(2rem, 10vw, 3rem); font-weight: 900; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        h1 {
+            font-size: 2.5rem; /* 更大的標題 */
+            font-weight: 900;
+            color: var(--brown);
+            letter-spacing: -1px;
+            line-height: 1.2;
+        }
 
-        /* 導航列：加入毛玻璃效果，更符合 iOS 審美 */
+        h1 span {
+            display: block;
+            font-size: 1.2rem;
+            color: var(--orange);
+            margin-top: 8px;
+            letter-spacing: 2px;
+        }
+
+        /* 導航列優化：點擊區域更大 */
         nav {
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(250, 246, 240, 0.85);
+            background: rgba(250, 246, 240, 0.95);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             display: flex;
-            justify-content: space-around;
-            padding: 15px 0;
-            border-bottom: 1px solid var(--mist);
+            border-bottom: 1px solid #eee;
         }
 
-        .nav-link { text-decoration: none; color: var(--warm-brown); font-weight: 700; font-size: 0.9rem; touch-action: manipulation; }
-        .nav-link.active { color: var(--terracotta); border-bottom: 2px solid var(--terracotta); }
+        .nav-btn {
+            flex: 1;
+            padding: 18px 0;
+            border: none;
+            background: none;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+        }
 
-        /* 內容區 */
-        main { flex: 1; padding: 20px; max-width: 800px; margin: 0 auto; width: 100%; }
-        .section { display: none; animation: fadeIn 0.4s ease forwards; }
+        .nav-btn.active {
+            color: var(--orange);
+            border-bottom: 3px solid var(--orange);
+        }
+
+        /* 內容卡片優化 */
+        main {
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section { display: none; animation: fadeIn 0.4s ease; }
         .section.active { display: block; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .item-card {
-            display: flex;
+        .card {
             background: white;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.2s ease;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
         }
 
-        .item-card:active { transform: scale(0.98); } /* 模擬 iOS 按壓 */
+        .card img {
+            width: 100%;
+            height: 220px; /* 固定高度，看起來更整齊 */
+            object-fit: cover;
+        }
 
-        .card-img { width: 130px; object-fit: cover; background: #eee; }
-        .card-body { padding: 15px; flex: 1; }
-        .card-body h3 { margin-bottom: 5px; color: var(--warm-brown); font-weight: 900; font-size: 1.1rem; }
-        .card-body p { font-size: 0.8rem; color: #666; line-height: 1.5; }
+        .card-content {
+            padding: 20px;
+        }
 
-        footer { text-align: center; padding: 30px; font-size: 0.7rem; color: #999; padding-bottom: calc(30px + var(--safe-bottom)); background: var(--mist); margin-top: auto;}
+        .card-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--brown);
+        }
 
-        @media (max-width: 480px) {
-            .hero { height: 35vh; }
-            .card-img { width: 110px; }
+        .card-content p {
+            font-size: 1rem; /* 加大內文字體 */
+            color: #555;
+            text-align: justify;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px calc(40px + var(--safe-bottom));
+            font-size: 0.9rem;
+            color: #bbb;
+        }
+
+        /* 針對小螢幕微調 */
+        @media (max-width: 375px) {
+            h1 { font-size: 2.1rem; }
+            .card img { height: 180px; }
         }
     </style>
 </head>
 <body>
 
-    <section class="hero">
-        <h1 class="hero-title">台中旅遊誌</h1>
-    </section>
+<header>
+    <h1>台中旅遊誌<span>SCENERY & FOOD</span></h1>
+</header>
 
-    <nav id="navbar">
-        <a href="javascript:void(0)" class="nav-link active" onclick="showTab('food', this)">🍜 台中美食</a>
-        <a href="javascript:void(0)" class="nav-link" onclick="showTab('spots', this)">🏛️ 熱門地標</a>
-    </nav>
+<nav>
+    <button class="nav-btn active" onclick="showTab('food', this)">在地美食</button>
+    <button class="nav-btn" onclick="showTab('spots', this)">熱門景點</button>
+</nav>
 
-    <main>
-        <div id="food" class="section active">
-            <div class="item-card">
-                <img src="https://utility.displayimage.taichung.gov.tw/Utility/DisplayImage?id=25381" class="card-img" alt="太陽餅" loading="lazy"">
-                <div class="card-body"><h3>太陽餅</h3><p>台中最經典的伴手禮，皮薄酥脆內餡麥芽香甜。</p></div>
-            </div>
-            <div class="item-card">
-                <img src="https://www.chunshuitang.com.tw/upload/article_m/ALL_article_[C]_24E24_pFKFEXUAKh.webp">
-                <div class="card-body"><h3>珍珠奶茶</h3><p>起源於台中的國際級飲品，茶香與Q彈嚼勁的完美平衡。</p></div>
+<main>
+    <div id="food" class="section active">
+        <div class="card">
+            <img src="https://utility.displayimage.taichung.gov.tw/Utility/DisplayImage?id=25381" alt="太陽餅">
+            <div class="card-content">
+                <h3>太陽餅</h3>
+                <p>台中最知名的伴手禮，酥脆的外皮配上香甜麥芽餡，是每位遊客必帶的美味。</p>
             </div>
         </div>
-
-        <div id="spots" class="section">
-            <div class="item-card">
-                <img src="https://travel.taichung.gov.tw/image/24379/1024x768" class="card-img" alt="景點" loading="lazy">
-                <div class="card-body"><h3>國家歌劇院</h3><p>世界級曲牆建築，是台中最具代表性的藝文地標。</p></div>
-            </div>
-            <div class="item-card">
-                <img src="https://travel.taichung.gov.tw/Utility/DisplayImage?id=25574" class="card-img" alt="高美" loading="lazy">
-                <div class="card-body"><h3>高美濕地</h3><p>一生必遊一次的聖地，被譽為台灣的天空之鏡。</p></div>
+        <div class="card">
+            <img src="https://www.chunshuitang.com.tw/upload/article_m/ALL_article_[C]_24E24_pFKFEXUAKh.webp" alt="珍奶">
+            <div class="card-content">
+                <h3>珍珠奶茶</h3>
+                <p>起源於台中的春水堂，珍奶已成為台灣的國民飲料，茶香與Q彈珍珠的完美結合。</p>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer>© 2026 台中旅遊誌 · 看風景 放輕鬆</footer>
+    <div id="spots" class="section">
+        <div class="card">
+            <img src="https://travel.taichung.gov.tw/image/24379/1024x768" alt="歌劇院">
+            <div class="card-content">
+                <h3>台中國家歌劇院</h3>
+                <p>世界建築奇蹟，無樑柱的曲牆設計讓人驚嘆，是文青必訪的拍照聖地。</p>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://travel.taichung.gov.tw/Utility/DisplayImage?id=25574" alt="高美濕地">
+            <div class="card-content">
+                <h3>高美濕地</h3>
+                <p>絕美日落與豐富生態，走在木棧道上迎接晚霞，是台中最浪漫的景點。</p>
+            </div>
+        </div>
+    </div>
+</main>
 
-    <script>
-        function showTab(id, el) {
-            // 切換 Section
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            
-            // 切換 Nav 狀態
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            el.classList.add('active');
-            
-            // 點擊後平滑滾動到導航列下方一點點，提升體驗
-            window.scrollTo({ top: document.querySelector('.hero').offsetHeight - 20, behavior: 'smooth' });
-        }
-    </script>
+<footer>
+    © 2026 台中旅遊誌 · 看風景 放輕鬆
+</footer>
+
+<script>
+    function showTab(id, btn) {
+        // 切換 Section
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        
+        // 切換按鈕樣式
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        // 自動回捲到上方，體驗更好
+        window.scrollTo({ top: 150, behavior: 'smooth' });
+    }
+</script>
+
 </body>
 </html>
